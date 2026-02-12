@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova — Single Page Website</title>
+  <meta name="description" content="A modern single-page website with Tailwind CSS, interactive sections, and Zoho SalesIQ live chat." />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    /* Soft gradient + subtle grid */
+    .bg-grid {
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(148,163,184,.35) 1px, transparent 0);
+      background-size: 22px 22px;
+    }
+
+    /* Accessible focus ring */
+    .focus-ring:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(59,130,246,.35);
+    }
+
+    /* Reduced motion support */
+    .reduce-motion * {
+      scroll-behavior: auto !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    /* Hide scrollbar for the toast list */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+  <!-- Top glow -->
+  <div class="pointer-events-none fixed inset-x-0 -top-24 h-64 bg-gradient-to-b from-indigo-300/30 via-sky-300/10 to-transparent blur-3xl dark:from-indigo-500/15 dark:via-sky-500/5"></div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/70">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <a href="#home" class="focus-ring flex items-center gap-2 rounded-xl px-2 py-1">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">N</span>
+        <span class="font-semibold tracking-tight">Nova</span>
+      </a>
+
+      <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#home">Home</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#solutions">Solutions</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#pricing">Pricing</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#faq">FAQ</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#contact">Contact</a>
+        <a href="https://oodles157.zohodesk.in/portal/en/home" target="_blank" rel="noopener noreferrer" class="focus-ring inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+          Help Center
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button id="themeBtn" type="button" class="focus-ring inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900" aria-label="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">☀️</span>
+          <span id="themeLabel" class="hidden sm:inline">Light</span>
+        </button>
+
+        <button id="menuBtn" class="focus-ring inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-800 shadow-sm hover:bg-slate-50 md:hidden dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden border-t border-slate-200 bg-white px-4 py-3 md:hidden dark:border-slate-800 dark:bg-slate-950">
+      <nav class="grid gap-2" aria-label="Mobile">
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#home">Home</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#solutions">Solutions</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#pricing">Pricing</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#faq">FAQ</a>
+        <a class="nav-link focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900" href="#contact">Contact</a>
+        <a href="https://oodles157.zohodesk.in/portal/en/home" target="_blank" rel="noopener noreferrer" class="focus-ring inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+          Help Center
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="relative">
+      <div class="bg-grid absolute inset-0 opacity-50 dark:opacity-25"></div>
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+        <div class="grid items-center gap-10 md:grid-cols-2">
+          <div>
+            <p class="inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold text-slate-700 backdrop-blur dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-200">
+              <span id="chatDot" class="inline-block h-2 w-2 rounded-full bg-amber-500" aria-hidden="true"></span>
+              <span>Live chat:</span>
+              <span id="chatState" class="font-bold">Loading…</span>
+              <span class="text-slate-400">•</span>
+              <a class="focus-ring rounded-md px-1 text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="#faq">Why not visible?</a>
+            </p>
+            <p id="chatHelp" class="mt-2 hidden max-w-prose text-xs text-slate-500 dark:text-slate-400"></p>
+
+            <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+              A clean website that
+              <span class="bg-gradient-to-r from-indigo-600 to-sky-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-sky-400">converts</span>.
+            </h1>
+
+            <p class="mt-4 max-w-prose text-base leading-relaxed text-slate-700 dark:text-slate-300">
+              Nova is a single-page template you can customize quickly: responsive navigation, interactive sections, validation, and a polished UI.
+            </p>
+
+            <div class="mt-7 flex flex-wrap items-center gap-3">
+              <a href="#pricing" class="focus-ring inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">See pricing</a>
+              <a href="#contact" class="focus-ring inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900">Talk to us</a>
+              <button id="reduceMotionBtn" type="button" role="switch" aria-checked="false" class="focus-ring inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900">
+                Reduce motion
+              </button>
+            </div>
+
+            <dl class="mt-10 grid max-w-xl grid-cols-2 gap-6">
+              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/60">
+                <dt class="text-xs font-semibold text-slate-600 dark:text-slate-300">Local time</dt>
+                <dd id="clock" class="mt-1 text-lg font-bold tracking-tight">--:--:--</dd>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/60">
+                <dt class="text-xs font-semibold text-slate-600 dark:text-slate-300">Site status</dt>
+                <dd id="status" class="mt-1 text-lg font-bold tracking-tight">Ready</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="md:justify-self-end">
+            <div class="rounded-3xl border border-slate-200 bg-white/75 p-6 shadow-xl shadow-slate-900/5 backdrop-blur dark:border-slate-800 dark:bg-slate-950/60">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h2 class="text-base font-semibold">ROI mini-calculator</h2>
+                  <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Estimate savings from faster support and higher conversions.</p>
+                </div>
+                <span class="rounded-full bg-indigo-600/10 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">Interactive</span>
+              </div>
+
+              <div class="mt-5 grid gap-4">
+                <label class="grid gap-2">
+                  <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Monthly website visitors</span>
+                  <input id="visitors" class="focus-ring w-full" type="range" min="1000" max="200000" step="1000" value="25000" />
+                  <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <span>1k</span>
+                    <span id="visitorsLabel" class="font-semibold text-slate-700 dark:text-slate-200">25,000</span>
+                    <span>200k</span>
+                  </div>
+                </label>
+
+                <label class="grid gap-2">
+                  <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Conversion lift (with live chat)</span>
+                  <input id="lift" class="focus-ring w-full" type="range" min="0" max="20" step="1" value="4" />
+                  <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <span>0%</span>
+                    <span id="liftLabel" class="font-semibold text-slate-700 dark:text-slate-200">4%</span>
+                    <span>20%</span>
+                  </div>
+                </label>
+
+                <div class="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                  <p class="font-semibold">Estimated extra leads/month</p>
+                  <p class="mt-1 text-2xl font-bold tracking-tight"><span id="leads">40</span></p>
+                  <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Assumes 2% base conversion rate. Edit values to match your business.</p>
+                </div>
+
+                <button id="saveCalc" type="button" class="focus-ring inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-500">Save my estimate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTIONS -->
+    <section id="solutions" class="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+      <div class="flex items-end justify-between gap-6">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight">Solutions</h2>
+          <p class="mt-2 max-w-prose text-slate-600 dark:text-slate-300">Everything you need for a small business landing page.</p>
+        </div>
+        <div class="hidden sm:block">
+          <span class="rounded-full bg-emerald-600/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">Fast + Accessible</span>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <h3 class="font-semibold">Instant navigation</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Sticky header, smooth scrolling, and active link highlighting.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <h3 class="font-semibold">Lead capture</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Contact form with client-side validation and clear feedback.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <h3 class="font-semibold">Live chat</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Zoho SalesIQ embed included so visitors can reach you quickly.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <div class="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 dark:border-slate-800 dark:from-slate-950 dark:to-slate-950">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <h3 class="text-lg font-semibold">Testimonials</h3>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">A tiny slider with keyboard support.</p>
+            </div>
+            <div class="flex gap-2">
+              <button id="prevTestimonial" type="button" class="focus-ring rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900" aria-label="Previous testimonial">Prev</button>
+              <button id="nextTestimonial" type="button" class="focus-ring rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200" aria-label="Next testimonial">Next</button>
+            </div>
+          </div>
+
+          <figure class="mt-5 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950" aria-live="polite">
+            <blockquote id="testimonialQuote" class="text-sm leading-relaxed text-slate-700 dark:text-slate-200"></blockquote>
+            <figcaption class="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
+              — <span id="testimonialName"></span>, <span id="testimonialRole"></span>
+            </figcaption>
+          </figure>
+          <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">Tip: use Left/Right arrow keys.</p>
+        </div>
+
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold">Quick checklist</h3>
+            <button id="clearChecklist" type="button" class="focus-ring rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900">Clear</button>
+          </div>
+
+          <form id="checklistForm" class="mt-5 flex gap-2" autocomplete="off">
+            <input id="checklistInput" class="focus-ring w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100" placeholder="e.g., Add my services" />
+            <button class="focus-ring rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-500" type="submit">Add</button>
+          </form>
+
+          <ul id="checklist" class="mt-5 space-y-2" aria-label="Checklist items"></ul>
+          <p class="mt-5 text-xs text-slate-500 dark:text-slate-400">Click an item to toggle done.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight">Pricing</h2>
+          <p class="mt-2 max-w-prose text-slate-600 dark:text-slate-300">Pick a plan. Toggle monthly/yearly for a quick estimate.</p>
+        </div>
+        <div class="inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-2 dark:border-slate-800 dark:bg-slate-950">
+          <span class="px-2 text-xs font-semibold text-slate-600 dark:text-slate-300">Monthly</span>
+          <button id="billingToggle" type="button" role="switch" aria-checked="false" class="focus-ring relative inline-flex h-9 w-16 items-center rounded-full bg-slate-200 p-1 transition dark:bg-slate-800" aria-label="Toggle billing period">
+            <span id="billingKnob" class="inline-block h-7 w-7 translate-x-0 rounded-full bg-white shadow transition"></span>
+          </button>
+          <span class="px-2 text-xs font-semibold text-slate-600 dark:text-slate-300">Yearly</span>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <h3 class="font-semibold">Starter</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">For simple landing pages.</p>
+          <p class="mt-5 text-4xl font-bold tracking-tight"><span class="price" data-month="19" data-year="15">$19</span><span class="text-sm font-semibold text-slate-500 dark:text-slate-400">/mo</span></p>
+          <ul class="mt-5 space-y-2 text-sm text-slate-700 dark:text-slate-200">
+            <li>• 1 page</li>
+            <li>• Contact form</li>
+            <li>• Basic support</li>
+          </ul>
+          <a href="#contact" class="focus-ring mt-6 inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900">Choose Starter</a>
+        </div>
+
+        <div class="relative rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-6 shadow-sm dark:border-indigo-900/40 dark:from-indigo-950/30 dark:to-slate-950">
+          <div class="absolute right-4 top-4 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">Popular</div>
+          <h3 class="font-semibold">Growth</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">For lead generation and speed.</p>
+          <p class="mt-5 text-4xl font-bold tracking-tight"><span class="price" data-month="49" data-year="39">$49</span><span class="text-sm font-semibold text-slate-500 dark:text-slate-400">/mo</span></p>
+          <ul class="mt-5 space-y-2 text-sm text-slate-700 dark:text-slate-200">
+            <li>• Everything in Starter</li>
+            <li>• Live chat setup</li>
+            <li>• 3 sections customization</li>
+          </ul>
+          <a href="#contact" class="focus-ring mt-6 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">Choose Growth</a>
+        </div>
+
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <h3 class="font-semibold">Pro</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">For teams and larger websites.</p>
+          <p class="mt-5 text-4xl font-bold tracking-tight"><span class="price" data-month="99" data-year="79">$99</span><span class="text-sm font-semibold text-slate-500 dark:text-slate-400">/mo</span></p>
+          <ul class="mt-5 space-y-2 text-sm text-slate-700 dark:text-slate-200">
+            <li>• Everything in Growth</li>
+            <li>• Priority tweaks</li>
+            <li>• Analytics guidance</li>
+          </ul>
+          <a href="#contact" class="focus-ring mt-6 inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900">Choose Pro</a>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Newsletter (demo)</h3>
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Client-side only. Saves your email in your browser.</p>
+          </div>
+          <form id="newsletterForm" class="flex w-full gap-2 md:max-w-md" autocomplete="off">
+            <input id="newsletterEmail" type="email" class="focus-ring w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950" placeholder="you@company.com" required />
+            <button class="focus-ring rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-500" type="submit">Subscribe</button>
+          </form>
+        </div>
+        <p id="newsletterHint" class="mt-3 text-xs text-slate-500 dark:text-slate-400"></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+      <div class="grid gap-8 md:grid-cols-2">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight">FAQ</h2>
+          <p class="mt-2 text-slate-600 dark:text-slate-300">Common questions. Click to expand.</p>
+          <div class="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700 dark:bg-slate-900 dark:text-slate-200">
+            <p class="font-semibold">Pro tip</p>
+            <p class="mt-1">If you don't see the chat bubble, disable ad blockers for your site domain.</p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div class="faq-item rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+            <button class="faq-btn focus-ring flex w-full items-center justify-between gap-3 rounded-xl px-2 py-2 text-left" aria-expanded="false">
+              <span class="font-semibold">Will this page send emails from the contact form?</span>
+              <span class="faq-icon text-slate-500 dark:text-slate-400" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-panel hidden px-2 pb-2 text-sm text-slate-600 dark:text-slate-300">
+              No — this demo validates input and shows success. To send emails, connect a backend or a form service.
+            </div>
+          </div>
+
+          <div class="faq-item rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+            <button class="faq-btn focus-ring flex w-full items-center justify-between gap-3 rounded-xl px-2 py-2 text-left" aria-expanded="false">
+              <span class="font-semibold">Does Zoho SalesIQ work automatically once embedded?</span>
+              <span class="faq-icon text-slate-500 dark:text-slate-400" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-panel hidden px-2 pb-2 text-sm text-slate-600 dark:text-slate-300">
+              Typically yes. Ensure the widget code is correct, your portal is configured, and the domain is allowed in Zoho.
+            </div>
+          </div>
+
+          <div class="faq-item rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+            <button class="faq-btn focus-ring flex w-full items-center justify-between gap-3 rounded-xl px-2 py-2 text-left" aria-expanded="false">
+              <span class="font-semibold">Why is the chat bubble not visible after I download and open the HTML?</span>
+              <span class="faq-icon text-slate-500 dark:text-slate-400" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-panel hidden px-2 pb-2 text-sm text-slate-600 dark:text-slate-300">
+              Most commonly because you opened the file using <code>file://</code>. Many chat widgets (including SalesIQ) need to run on a real website origin (<code>http://</code> or <code>https://</code>), and your domain must be allowed/verified in your Zoho SalesIQ settings.
+              <div class="mt-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                <p class="font-semibold">Try this:</p>
+                <ol class="mt-1 list-decimal pl-5">
+                  <li>Run a local server (example: <code>python -m http.server</code>) and open <code>http://localhost:8000</code>.</li>
+                  <li>In Zoho SalesIQ, add your domain (or <code>localhost</code>) to the allowed domains list.</li>
+                  <li>Disable ad-blockers for your domain.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+            <button class="faq-btn focus-ring flex w-full items-center justify-between gap-3 rounded-xl px-2 py-2 text-left" aria-expanded="false">
+              <span class="font-semibold">Can I change colors and sections?</span>
+              <span class="faq-icon text-slate-500 dark:text-slate-400" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-panel hidden px-2 pb-2 text-sm text-slate-600 dark:text-slate-300">
+              Yes. This is a single HTML file using Tailwind utility classes — edit text, add sections, and adjust colors easily.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+        <div class="grid gap-8 md:grid-cols-2 md:items-start">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight">Contact</h2>
+            <p class="mt-2 text-slate-600 dark:text-slate-300">Tell us what you need. This form is front-end only.</p>
+
+            <div class="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700 dark:bg-slate-900 dark:text-slate-200">
+              <p class="font-semibold">What happens when you submit?</p>
+              <ul class="mt-2 list-disc pl-5 text-slate-600 dark:text-slate-300">
+                <li>We validate your input</li>
+                <li>We show a success message</li>
+                <li>We keep the page lightweight (no backend)</li>
+              </ul>
+            </div>
+
+            <div class="mt-6 text-sm text-slate-600 dark:text-slate-300">
+              Prefer live chat? Use the chat widget in the corner.
+            </div>
+          </div>
+
+          <form id="contactForm" class="grid gap-4" novalidate>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label class="grid gap-2">
+                <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Name</span>
+                <input name="name" class="focus-ring rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950" placeholder="Jane Doe" />
+                <span class="hidden text-xs font-medium text-rose-600" data-error-for="name"></span>
+              </label>
+
+              <label class="grid gap-2">
+                <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Email</span>
+                <input name="email" type="email" class="focus-ring rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950" placeholder="jane@example.com" />
+                <span class="hidden text-xs font-medium text-rose-600" data-error-for="email"></span>
+              </label>
+            </div>
+
+            <label class="grid gap-2">
+              <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Topic</span>
+              <select name="topic" class="focus-ring rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950">
+                <option value="">Select a topic…</option>
+                <option>Website</option>
+                <option>Live Chat</option>
+                <option>Pricing</option>
+                <option>Other</option>
+              </select>
+              <span class="hidden text-xs font-medium text-rose-600" data-error-for="topic"></span>
+            </label>
+
+            <label class="grid gap-2">
+              <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Message</span>
+              <textarea name="message" rows="5" class="focus-ring resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950" placeholder="Write your message..."></textarea>
+              <span class="hidden text-xs font-medium text-rose-600" data-error-for="message"></span>
+            </label>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <button id="sendBtn" class="focus-ring inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-500" type="submit">Send</button>
+              <button id="fillBtn" class="focus-ring inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900" type="button">Fill sample</button>
+              <button id="openChatBtn" class="focus-ring inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900" type="button">Open live chat</button>
+              <p class="text-xs text-slate-500 dark:text-slate-400">No backend required.</p>
+            </div>
+
+            <div id="contactResult" class="hidden rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-200"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 py-10 dark:border-slate-800">
+    <div class="mx-auto flex max-w-6xl flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm text-slate-600 dark:text-slate-300">© <span id="year"></span> Nova. Customize freely.</p>
+      <div class="flex items-center gap-2">
+        <a class="focus-ring rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900" href="#home">Back to top</a>
+        <span class="text-xs text-slate-400">•</span>
+        <span class="text-xs text-slate-500 dark:text-slate-400">Theme saved in localStorage</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toasts -->
+  <div id="toastHost" class="no-scrollbar fixed bottom-4 right-4 z-50 flex max-h-[60vh] w-[min(92vw,380px)] flex-col gap-2 overflow-auto"></div>
+
+  <!-- ========================================
+       ZOHO SALESIQ LIVE CHAT INTEGRATION
+       ======================================== -->
+  
+  <!-- Zoho SalesIQ Widget Code -->
+  <script>
+    window.$zoho = window.$zoho || {};
+    $zoho.salesiq = $zoho.salesiq || {
+      ready: function() {
+        // Chat is ready
+        window.__siqReady = true;
+        console.log('✅ Zoho SalesIQ loaded successfully');
+        
+        try {
+          // Update UI status indicators
+          const state = document.getElementById('chatState');
+          const dot = document.getElementById('chatDot');
+          const help = document.getElementById('chatHelp');
+          
+          if (state) state.textContent = 'Ready';
+          if (dot) dot.className = 'inline-block h-2 w-2 rounded-full bg-emerald-500';
+          if (help) help.classList.add('hidden');
+          
+        } catch (e) {
+          console.error('❌ SalesIQ ready error:', e);
+        }
+      }
+    }
+  </script>
+  <script id="zsiqscript" src="https://salesiq.zoho.in/widget?wc=siq5a6bf9b37f87abbc3bcef73bcdccdac73b317d68e8eeb917fcd9eca0e5f110b7" defer></script>
+
+  <!-- Chat status detection and troubleshooting -->
+  <script>
+    window.addEventListener('load', () => {
+      const isFile = location.protocol === 'file:';
+      const state = document.getElementById('chatState');
+      const dot = document.getElementById('chatDot');
+      const help = document.getElementById('chatHelp');
+
+      // Check if opened via file:// protocol
+      if (isFile) {
+        console.warn('⚠️ Page opened via file:// - SalesIQ will not work');
+        if (state) state.textContent = 'Blocked on file://';
+        if (dot) dot.className = 'inline-block h-2 w-2 rounded-full bg-rose-500';
+        if (help) {
+          help.textContent = '⚠️ Open this page via http:// or https:// (run a local server) and whitelist your domain in Zoho SalesIQ settings.';
+          help.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Wait for SalesIQ to initialize (timeout after 5 seconds)
+      setTimeout(() => {
+        if (window.__siqReady) return;
+        
+        console.warn('⚠️ SalesIQ not detected after 5 seconds');
+        if (state) state.textContent = 'Not detected';
+        if (dot) dot.className = 'inline-block h-2 w-2 rounded-full bg-amber-500';
+        if (help) {
+          help.innerHTML = '⚠️ Chat not visible? <strong>Check:</strong> (1) Domain whitelisted in SalesIQ, (2) Ad-blocker disabled, (3) Widget code is correct, (4) Network/firewall not blocking.';
+          help.classList.remove('hidden');
+        }
+      }, 5000);
+
+      // Detect script loading errors
+      const scriptEl = document.getElementById('zsiqscript');
+      if (scriptEl) {
+        scriptEl.addEventListener('error', () => {
+          console.error('❌ Failed to load SalesIQ script');
+          if (state) state.textContent = 'Script failed';
+          if (dot) dot.className = 'inline-block h-2 w-2 rounded-full bg-rose-500';
+          if (help) {
+            help.textContent = '❌ The SalesIQ script failed to load. Check your network connection and firewall settings.';
+            help.classList.remove('hidden');
+          }
+        });
+      }
+    });
+  </script>
+
+  <!-- Main application script -->
+  <script>
+    // --- Helpers ---
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    function formatInt(n) {
+      return new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(n);
+    }
+
+    function toast(message, variant = 'info', timeout = 2400) {
+      const host = $('#toastHost');
+      const colors = {
+        info: 'border-slate-200 bg-white text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100',
+        ok: 'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-200',
+        warn: 'border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200',
+        err: 'border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-900/40 dark:bg-rose-950/30 dark:text-rose-200'
+      };
+      const el = document.createElement('div');
+      el.className = `rounded-2xl border p-3 text-sm shadow-lg shadow-slate-900/5 ${colors[variant] || colors.info}`;
+      el.textContent = message;
+      host.appendChild(el);
+      if (timeout > 0) {
+        setTimeout(() => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(6px)';
+          el.style.transition = 'opacity 250ms ease, transform 250ms ease';
+          setTimeout(() => el.remove(), 260);
+        }, timeout);
+      }
+    }
+
+    // --- Theme ---
+    const themeBtn = $('#themeBtn');
+    const themeIcon = $('#themeIcon');
+    const themeLabel = $('#themeLabel');
+
+    function applyTheme(mode) {
+      const isDark = mode === 'dark';
+      document.documentElement.classList.toggle('dark', isDark);
+      themeIcon.textContent = isDark ? '🌙' : '☀️';
+      themeLabel.textContent = isDark ? 'Dark' : 'Light';
+      themeBtn.setAttribute('aria-pressed', String(isDark));
+    }
+
+    function getPreferredTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    let theme = getPreferredTheme();
+    applyTheme(theme);
+
+    themeBtn.addEventListener('click', () => {
+      theme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      localStorage.setItem('theme', theme);
+      applyTheme(theme);
+      toast(`Theme: ${theme}`, 'ok');
+    });
+
+    // --- Mobile menu ---
+    const menuBtn = $('#menuBtn');
+    const mobileMenu = $('#mobileMenu');
+
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+
+    $$('#mobileMenu a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+
+    // --- Active section highlight ---
+    const navLinks = $$('.nav-link');
+    const sectionIds = ['home', 'solutions', 'pricing', 'faq', 'contact'];
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+    function setActiveLink(id) {
+      navLinks.forEach(a => {
+        const isActive = a.getAttribute('href') === `#${id}`;
+        a.classList.toggle('bg-slate-100', isActive);
+        a.classList.toggle('text-slate-900', isActive);
+        a.classList.toggle('dark:bg-slate-900', isActive);
+      });
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      const visible = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) setActiveLink(visible.target.id);
+    }, { threshold: [0.25, 0.45, 0.65] });
+
+    sections.forEach(s => io.observe(s));
+
+    // --- Clock ---
+    const clockEl = $('#clock');
+    function tick() {
+      const d = new Date();
+      clockEl.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // --- Reduce motion ---
+    const reduceMotionBtn = $('#reduceMotionBtn');
+    function applyReducedMotion(reduced) {
+      document.documentElement.classList.toggle('reduce-motion', reduced);
+      reduceMotionBtn.setAttribute('aria-checked', String(reduced));
+      reduceMotionBtn.textContent = reduced ? 'Motion reduced' : 'Reduce motion';
+    }
+    const savedRM = localStorage.getItem('reduceMotion') === 'true';
+    applyReducedMotion(savedRM);
+
+    reduceMotionBtn.addEventListener('click', () => {
+      const reduced = !(reduceMotionBtn.getAttribute('aria-checked') === 'true');
+      localStorage.setItem('reduceMotion', String(reduced));
+      applyReducedMotion(reduced);
+      toast(reduced ? 'Reduced motion enabled' : 'Reduced motion disabled', 'ok');
+    });
+
+    // --- ROI calculator ---
+    const visitors = $('#visitors');
+    const lift = $('#lift');
+    const visitorsLabel = $('#visitorsLabel');
+    const liftLabel = $('#liftLabel');
+    const leadsEl = $('#leads');
+    const saveCalc = $('#saveCalc');
+    const statusEl = $('#status');
+
+    function computeLeads(vis, liftPct) {
+      const baseCR = 0.02;
+      const lift = 1 + (liftPct / 100);
+      const extra = Math.max(0, Math.round(vis * baseCR * (lift - 1)));
+      return extra;
+    }
+
+    function renderCalc() {
+      const v = Number(visitors.value);
+      const l = Number(lift.value);
+      visitorsLabel.textContent = formatInt(v);
+      liftLabel.textContent = `${l}%`;
+      leadsEl.textContent = formatInt(computeLeads(v, l));
+    }
+
+    // Load saved calculator state
+    try {
+      const saved = JSON.parse(localStorage.getItem('calc:v1') || 'null');
+      if (saved && typeof saved === 'object') {
+        if (Number.isFinite(saved.visitors)) visitors.value = String(saved.visitors);
+        if (Number.isFinite(saved.lift)) lift.value = String(saved.lift);
+      }
+    } catch {}
+
+    visitors.addEventListener('input', renderCalc);
+    lift.addEventListener('input', renderCalc);
+    renderCalc();
+
+    saveCalc.addEventListener('click', () => {
+      const payload = { visitors: Number(visitors.value), lift: Number(lift.value) };
+      localStorage.setItem('calc:v1', JSON.stringify(payload));
+      toast('Saved your estimate', 'ok');
+      statusEl.textContent = 'Estimate saved';
+      setTimeout(() => (statusEl.textContent = 'Ready'), 1400);
+    });
+
+    // --- Testimonials slider ---
+    const testimonials = [
+      {
+        quote: '"We embedded SalesIQ and saw more qualified conversations in the first week."',
+        name: 'Riya',
+        role: 'Operations'
+      },
+      {
+        quote: '"Clean UI, fast load, and the interactions feel premium without being heavy."',
+        name: 'Sam',
+        role: 'Founder'
+      },
+      {
+        quote: '"The FAQ and pricing toggle helped us explain value quickly. Great starter."',
+        name: 'Aditi',
+        role: 'Marketing'
+      }
+    ];
+
+    const prevBtn = $('#prevTestimonial');
+    const nextBtn = $('#nextTestimonial');
+    const quoteEl = $('#testimonialQuote');
+    const nameEl = $('#testimonialName');
+    const roleEl = $('#testimonialRole');
+
+    let tIndex = 0;
+    function renderTestimonial() {
+      const t = testimonials[tIndex];
+      quoteEl.textContent = t.quote;
+      nameEl.textContent = t.name;
+      roleEl.textContent = t.role;
+    }
+
+    function nextTestimonial() {
+      tIndex = (tIndex + 1) % testimonials.length;
+      renderTestimonial();
+    }
+
+    function prevTestimonial() {
+      tIndex = (tIndex - 1 + testimonials.length) % testimonials.length;
+      renderTestimonial();
+    }
+
+    nextBtn.addEventListener('click', nextTestimonial);
+    prevBtn.addEventListener('click', prevTestimonial);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextTestimonial();
+      if (e.key === 'ArrowLeft') prevTestimonial();
+    });
+
+    renderTestimonial();
+
+    // --- Checklist (local persistence) ---
+    const checklistForm = $('#checklistForm');
+    const checklistInput = $('#checklistInput');
+    const checklist = $('#checklist');
+    const clearChecklist = $('#clearChecklist');
+
+    const LIST_KEY = 'checklist:v1';
+
+    function loadList() {
+      try {
+        return JSON.parse(localStorage.getItem(LIST_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function saveList(items) {
+      localStorage.setItem(LIST_KEY, JSON.stringify(items));
+    }
+
+    function renderList() {
+      const items = loadList();
+      checklist.innerHTML = '';
+
+      if (items.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'rounded-2xl border border-dashed border-slate-200 bg-white/60 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300';
+        li.textContent = 'No items yet. Add one above.';
+        checklist.appendChild(li);
+        return;
+      }
+
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-950';
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'focus-ring flex min-w-0 flex-1 items-center gap-3 rounded-xl px-2 py-1 text-left';
+        btn.setAttribute('aria-label', item.done ? 'Mark as not done' : 'Mark as done');
+
+        const dot = document.createElement('span');
+        dot.className = `h-3 w-3 flex-none rounded-full ${item.done ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700'}`;
+
+        const text = document.createElement('span');
+        text.className = `min-w-0 truncate text-sm ${item.done ? 'text-slate-400 line-through dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'}`;
+        text.textContent = item.text;
+
+        btn.append(dot, text);
+
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'focus-ring rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900';
+        del.textContent = 'Delete';
+        del.setAttribute('aria-label', `Delete: ${item.text}`);
+
+        btn.addEventListener('click', () => {
+          const items = loadList();
+          const idx = items.findIndex(x => x.id === item.id);
+          if (idx >= 0) {
+            items[idx].done = !items[idx].done;
+            saveList(items);
+            renderList();
+          }
+        });
+
+        del.addEventListener('click', () => {
+          const items = loadList().filter(x => x.id !== item.id);
+          saveList(items);
+          renderList();
+          toast('Deleted item', 'warn');
+        });
+
+        li.append(btn, del);
+        checklist.appendChild(li);
+      });
+    }
+
+    checklistForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = checklistInput.value.trim();
+      if (!text) {
+        toast('Type something to add.', 'warn');
+        checklistInput.focus();
+        return;
+      }
+      const items = loadList();
+      const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random());
+      items.unshift({ id, text, done: false });
+      saveList(items);
+      checklistInput.value = '';
+      renderList();
+      toast('Added item', 'ok');
+    });
+
+    clearChecklist.addEventListener('click', () => {
+      saveList([]);
+      renderList();
+      toast('Cleared checklist', 'warn');
+    });
+
+    renderList();
+
+    // --- Pricing toggle (monthly/yearly) ---
+    const billingToggle = $('#billingToggle');
+    const billingKnob = $('#billingKnob');
+
+    function applyBilling(isYearly) {
+      billingToggle.setAttribute('aria-checked', String(isYearly));
+      billingToggle.classList.toggle('bg-indigo-600', isYearly);
+      billingToggle.classList.toggle('bg-slate-200', !isYearly);
+      billingToggle.classList.toggle('dark:bg-indigo-500', isYearly);
+      billingToggle.classList.toggle('dark:bg-slate-800', !isYearly);
+      billingKnob.classList.toggle('translate-x-7', isYearly);
+
+      $$('.price').forEach(el => {
+        const m = Number(el.getAttribute('data-month'));
+        const y = Number(el.getAttribute('data-year'));
+        const v = isYearly ? y : m;
+        el.textContent = `$${v}`;
+      });
+
+      localStorage.setItem('billingYearly', String(isYearly));
+    }
+
+    const savedBilling = localStorage.getItem('billingYearly') === 'true';
+    applyBilling(savedBilling);
+
+    billingToggle.addEventListener('click', () => {
+      const isYearly = !(billingToggle.getAttribute('aria-checked') === 'true');
+      applyBilling(isYearly);
+      toast(isYearly ? 'Yearly pricing shown' : 'Monthly pricing shown', 'info');
+    });
+
+    // --- Newsletter (client only) ---
+    const newsletterForm = $('#newsletterForm');
+    const newsletterEmail = $('#newsletterEmail');
+    const newsletterHint = $('#newsletterHint');
+
+    function validateEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim());
+    }
+
+    const savedEmail = localStorage.getItem('newsletterEmail');
+    if (savedEmail) {
+      newsletterEmail.value = savedEmail;
+      newsletterHint.textContent = `Saved email: ${savedEmail}`;
+    }
+
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const v = newsletterEmail.value.trim();
+      if (!validateEmail(v)) {
+        toast('Enter a valid email.', 'err');
+        newsletterEmail.focus();
+        return;
+      }
+      localStorage.setItem('newsletterEmail', v);
+      newsletterHint.textContent = `Saved email: ${v}`;
+      toast('Subscribed (saved locally)', 'ok');
+    });
+
+    // --- FAQ accordion ---
+    $$('.faq-item').forEach((item) => {
+      const btn = $('.faq-btn', item);
+      const panel = $('.faq-panel', item);
+      const icon = $('.faq-icon', item);
+
+      btn.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        // close others
+        $$('.faq-item').forEach(other => {
+          const b = $('.faq-btn', other);
+          const p = $('.faq-panel', other);
+          const i = $('.faq-icon', other);
+          b.setAttribute('aria-expanded', 'false');
+          p.classList.add('hidden');
+          i.textContent = '+';
+        });
+
+        // open this if it was closed
+        if (!open) {
+          btn.setAttribute('aria-expanded', 'true');
+          panel.classList.remove('hidden');
+          icon.textContent = '–';
+        }
+      });
+    });
+
+    // --- Contact form validation ---
+    const contactForm = $('#contactForm');
+    const contactResult = $('#contactResult');
+    const fillBtn = $('#fillBtn');
+    const sendBtn = $('#sendBtn');
+    const openChatBtn = $('#openChatBtn');
+
+    function showError(name, msg) {
+      const el = document.querySelector(`[data-error-for="${name}"]`);
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.remove('hidden');
+    }
+
+    function clearErrors() {
+      $$('[data-error-for]').forEach(el => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+    }
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearErrors();
+      contactResult.classList.add('hidden');
+
+      const fd = new FormData(contactForm);
+      const name = String(fd.get('name') || '').trim();
+      const email = String(fd.get('email') || '').trim();
+      const topic = String(fd.get('topic') || '').trim();
+      const message = String(fd.get('message') || '').trim();
+
+      let ok = true;
+      if (name.length < 2) { showError('name', 'Please enter your name.'); ok = false; }
+      if (!validateEmail(email)) { showError('email', 'Please enter a valid email.'); ok = false; }
+      if (!topic) { showError('topic', 'Please choose a topic.'); ok = false; }
+      if (message.length < 10) { showError('message', 'Message should be at least 10 characters.'); ok = false; }
+
+      if (!ok) {
+        toast('Please fix the highlighted fields.', 'err');
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.classList.add('opacity-70');
+      sendBtn.textContent = 'Sending…';
+
+      setTimeout(() => {
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('opacity-70');
+        sendBtn.textContent = 'Send';
+
+        contactResult.textContent = `Thanks, ${name}! We received your message about "${topic}". (Demo only)`;
+        contactResult.classList.remove('hidden');
+        contactForm.reset();
+        toast('Message validated successfully', 'ok');
+      }, 650);
+    });
+
+    fillBtn.addEventListener('click', () => {
+      contactForm.querySelector('[name="name"]').value = 'Alex';
+      contactForm.querySelector('[name="email"]').value = 'alex@example.com';
+      contactForm.querySelector('[name="topic"]').value = 'Live Chat';
+      contactForm.querySelector('[name="message"]').value = 'Hi! I want to enable live chat and customize the website.';
+      toast('Sample filled', 'info');
+    });
+
+    // --- Open chat button (enhanced) ---
+    function tryOpenSalesIQ() {
+      try {
+        // Method 1: Show the floating chat window
+        if (window.$zoho?.salesiq?.floatwindow?.visible) {
+          window.$zoho.salesiq.floatwindow.visible('show');
+          console.log('💬 Chat opened via floatwindow.visible');
+          return true;
+        }
+        
+        // Method 2: Open the chat window
+        if (window.$zoho?.salesiq?.floatwindow?.open) {
+          window.$zoho.salesiq.floatwindow.open();
+          console.log('💬 Chat opened via floatwindow.open');
+          return true;
+        }
+        
+        // Method 3: Click the widget button
+        if (window.$zoho?.salesiq?.floatbutton?.click) {
+          window.$zoho.salesiq.floatbutton.click();
+          console.log('💬 Chat opened via floatbutton.click');
+          return true;
+        }
+        
+        console.warn('⚠️ No SalesIQ API methods available');
+      } catch (e) {
+        console.error('❌ Error opening chat:', e);
+      }
+      return false;
+    }
+
+    openChatBtn?.addEventListener('click', () => {
+      if (location.protocol === 'file:') {
+        toast('Chat won\'t work on file://. Use http(s) + allowed domain.', 'warn', 3800);
+        return;
+      }
+      
+      if (!window.__siqReady) {
+        toast('Chat not ready yet. Please wait...', 'info', 3200);
+        return;
+      }
+      
+      const success = tryOpenSalesIQ();
+      if (success) {
+        toast('Opening chat...', 'ok', 1500);
+      } else {
+        toast('Chat API not available. Check console for details.', 'warn', 3500);
+      }
+    });
+
+    // --- Footer year ---
+    $('#year').textContent = String(new Date().getFullYear());
+  </script>
+</body>
+</html>
